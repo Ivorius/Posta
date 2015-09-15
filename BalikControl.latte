@@ -1,0 +1,90 @@
+{block content}
+{snippet flashMessages}<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>{/snippet}
+
+{snippet posty}
+<div id="naPoste" n:if="$posts">
+    <table cellpadding="0" cellspacing="0">
+	<tr>
+	    <th colspan="2">Pošta</th>
+	    <th>Ulice</th>
+	    <th>PSČ</th>
+	    <th colspan="4">Informace</th>
+	    <th align="right">Zvolte poštu</th>
+	</tr>
+	
+	{foreach $posts AS $x}
+
+	    {if  $x->V_PROVOZU == 0}
+	    {capture $prov}
+		<p>Vaši zásilku lze vyzvednout v rámci otevírací doby pobočky, v avizovaném dni uložení však nejdříve po <b>{$x->VYDEJ_NP_OD} hodině</b>.</p>
+
+		<table>
+		    <tr><th>Pondělí</th>
+			<td>{$x->pondeli_od1} - {$x->pondeli_do1}</td>
+			<td>{$x->pondeli_od2} - {$x->pondeli_do2}</td>
+			<td>{$x->pondeli_od3} - {$x->pondeli_do3}</td>
+		    </tr>
+		    <tr><th>Úterý</th>
+			<td>{$x->utery_od1} - {$x->utery_do1}</td>
+			<td>{$x->utery_od2} - {$x->utery_do2}</td>
+			<td>{$x->utery_od3} - {$x->utery_do3}</td>
+		    </tr>
+		    <tr><th>Středa</th>
+			<td>{$x->streda_od1} - {$x->streda_do1}</td>
+			<td>{$x->streda_od2} - {$x->streda_do2}</td>
+			<td>{$x->streda_od3} - {$x->streda_do3}</td>
+		    </tr>
+		    <tr><th>Čtvrtek</th>
+			<td>{$x->ctvrtek_od1} - {$x->ctvrtek_do1}</td>
+			<td>{$x->ctvrtek_od2} - {$x->ctvrtek_do2}</td>
+			<td>{$x->ctvrtek_od3} - {$x->ctvrtek_do3}</td>
+		    </tr>
+		    <tr>
+			<th>Pátek</th>
+			<td>{$x->patek_od1} - {$x->patek_do1}</td>
+			<td>{$x->patek_od2} - {$x->patek_do2}</td>
+			<td>{$x->patek_od3} - {$x->patek_do3}</td>
+		    </tr>
+		    <tr>
+			<th>Sobota</th>
+			<td>{$x->sobota_od1} - {$x->sobota_do1}</td>
+			<td>{$x->sobota_od2} - {$x->sobota_do2}</td>
+			<td>{$x->sobota_od3} - {$x->sobota_do3}</td>
+		    </tr>
+		    <tr><th>Neděle</th>
+			<td>{$x->nedele_od1} - {$x->nedele_do1}</td>
+			<td>{$x->nedele_od2} - {$x->nedele_do2}</td>
+			<td>{$x->nedele_od3} - {$x->nedele_do3}</td>
+		    </tr>
+		</table>
+            {/capture}
+
+	    <tr>
+		<td>{$x->NAZ_PROV}
+		{if $value > $limit && $x->UKL_NP_LIMIT == 0}
+		   neumožňuje zaslat balík s hodnotou vyšší než {$limit}, náhradní pošta je  {$x->NAZ_NP_NAHR}		 
+		{/if}
+		</td>
+		<td><img src="{$img}/ico_7.png" alt="Provozni doba " class="anyTitle" popis="{$prov}" /></td>
+		<td class="anyTitle" popis="{$prov}">{$x->ADRESA}</td>
+		<td>{$x->PSC}</td>
+		<td>{if ($x->BANKOMAT == 1)}<img src="{$img}/ico_1.png" alt="Bankomat na poště" class="anyTitle" popis="Bankomat na poště" />{/if}</td>
+		<td>{if $x->KOMPLET_SERVIS == 1}<img src="{$img}/ico_2.png" alt="Komplet servis" class="anyTitle" popis="Příjem balíkových a listovních zásilek a peněžních poukázek" />{/if}</td>
+		<td>{if $x->PARKOVISTE == 1}<img src="{$img}/ico_3.png" alt="Parkování"  class="anyTitle" popis="Parkoviště u provozovny" />{/if}</td>
+		<td>{if $x->PRODL_DOBA == 1}<img src="{$img}/ico_4.png" alt="Prodloužená doba"  class="anyTitle" popis="prodloužená otevírací doba provozovny – po 18.00" />{/if}</td>
+		<td valign="bottom" align="right">{if $value > $limit && $x->UKL_NP_LIMIT == 0}nelze zvolit{else}<a n:href="select, $x->ID" class="ajax">Zvolit</a>{/if}</td>
+            </tr>
+	    {/if}
+	{/foreach}  
+    </table>
+    <p class="help">
+	<b>Legenda</b><br/>
+	<img src="{$img}/ico_7.png" alt="Otevírací doba provozovny" /> <b>Otevírací doba provozovny</b> <br />
+	<img src="{$img}/ico_1.png" alt="Bankomat na poště" /> Bankomat na poště <br />
+	<img src="{$img}/ico_2.png" alt="Příjem balíkových a listovních zásilek a peněžních poukázek" /> Příjem balíkových a listovních zásilek a peněžních poukázek<br />
+	<img src="{$img}/ico_3.png" alt="Parkoviště u provozovny" /> Parkoviště u provozovny <br />
+	<img src="{$img}/ico_4.png" alt="Prodloužená otevírací doba provozovny" /> Prodloužená otevírací doba provozovny  – po 18.00 <br />
+    </p>
+</div>
+{/snippet}
+ 
