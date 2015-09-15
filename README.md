@@ -9,6 +9,7 @@ Instalace:
 3. v daném presenteru si pak nechat vytvářet komponentu, vlastní zpracování výběru pošty provést v události onSelect komponenty [zavolá se po úspěšném výběru pošty]
 Např. 
 
+```php
 	protected function createComponentBalikNaPostu() {
 	    $control = new \Posta\BalikControl($this->postManager);
 	    $control->setValue($hodnota_dobirky);
@@ -17,14 +18,20 @@ Např.
 	    };
 	    return $control;
 	}
+```
+
 4.  v šabloně (latte) daného prosenteru zadat:
+
+```
 {control balikNaPostu:head} - vypíše javascript a css 
 {control balikNaPostu-form} - vypíše formulář pro vyhledání pošty
 {control balikNaPostu} - výpis pošt po vyhledání z formuláře výše
+```
 
 5. import pošt do databáze:
 	v presenteru si zavolám např.
 
+```php
 	public function actionImport() {
 	    try {
 	      $imported  = $this->postManager->import();
@@ -33,3 +40,4 @@ Např.
 			$this->template->message = "Chyba: " . $e->getMessage();
 	    }
 	}
+```
