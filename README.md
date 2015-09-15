@@ -3,7 +3,7 @@ Komponenta pro výběr pošty k doručení balíku.
 
 Instalace:
 
-1. stažení přes composer
+1. stažení přes: composer require unio/posta
 2. v presenteru kde se má zobrazit vyhledávací pole a výpis pošt - zaregistrovat do neonu a injectnout \Posta\PostManager (založen na NDB, potažmo NDAB manageru)což je implementace interface \Posta\IPostManager 
 (nebo si udělat vlastní implementaci)
 3. v daném presenteru si pak nechat vytvářet komponentu, vlastní zpracování výběru pošty provést v události onSelect komponenty [zavolá se po úspěšném výběru pošty]
