@@ -4,14 +4,14 @@ Komponenta pro výběr pošty k doručení balíku.
 Instalace:
 
 1. stažení přes: composer require unio/posta
-2. v presenteru kde se má zobrazit vyhledávací pole a výpis pošt - zaregistrovat do neonu a injectnout \Posta\PostManager (založen na NDB, potažmo NDAB manageru)což je implementace interface \Posta\IPostManager 
+2. v presenteru kde se má zobrazit vyhledávací pole a výpis pošt - zaregistrovat do neonu a injectnout \Unio\Posta\PostManager (založen na NDB, potažmo NDAB manageru)což je implementace interface \Unio\Posta\IPostManager 
 (nebo si udělat vlastní implementaci)
 3. v daném presenteru si pak nechat vytvářet komponentu, vlastní zpracování výběru pošty provést v události onSelect komponenty [zavolá se po úspěšném výběru pošty]
 Např. 
 
 ```php
 	protected function createComponentBalikNaPostu() {
-	    $control = new \Posta\BalikControl($this->postManager);
+	    $control = new \Unio\Posta\BalikControl($this->postManager);
 	    $control->setValue($hodnota_dobirky);
 	    $control->onSelect[] = function($posta) use ($control) {
 			$control->flashMessage("Pošta ". $posta->NAZ_PROV . " vybrána", "ok");

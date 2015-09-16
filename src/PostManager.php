@@ -6,7 +6,7 @@
  * @author Ivo
  */
 
-namespace Posta;
+namespace Unio\Posta;
 
 class PostManager extends \Ndab\Manager implements IPostManager {
 

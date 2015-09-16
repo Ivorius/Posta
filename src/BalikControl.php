@@ -6,7 +6,7 @@
  * @author Ivo
  */
 
-namespace Posta;
+namespace Unio\Posta;
 
 use Nette\Application\UI;
 

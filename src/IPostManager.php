@@ -3,7 +3,7 @@
  *
  * @author Ivo
  */
-namespace Posta;
+namespace Unio\Posta;
 
 interface IPostManager {
     
