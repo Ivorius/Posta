@@ -8,7 +8,9 @@
 
 namespace Unio\Posta;
 
-class PostManager extends \Ndab\Manager implements IPostManager {
+use Unio\Manager;
+
+class PostManager extends Manager implements IPostManager {
 
     /** @var string */
     protected $tableName = "posta";
