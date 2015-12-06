@@ -1,0 +1,71 @@
+{block content}
+{snippet flashMessages}<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>{/snippet}
+
+{snippet posty}
+<div id="naPoste" n:if="$posts">
+    <table cellpadding="0" cellspacing="0">
+	<tr>
+	    <th colspan="2">Pošta</th>
+	    <th>Ulica</th>
+	    <th>PSČ</th>
+	    <th>Limit</th>
+	    <th align="right">Zvolte poštu</th>
+	</tr>
+	
+	{foreach $posts AS $x}
+	    {capture $prov}
+		<table>
+		    <tr><th>Pondělí</th>
+			<td>{$x->pon_od} - {$x->pon_do}</td>
+			<td>Prestavka1: {$x->pon_prestavka1_od} - {$x->pon_prestavka1_do}</td>
+			<td>Prestavka2: {$x->pon_prestavka2_do} - {$x->pon_prestavka2_do}</td>
+		    </tr>
+		    <tr><th>Úterý</th>
+			<td>{$x->uto_od} - {$x->uto_do}</td>
+			<td>Prestavka1: {$x->uto_prestavka1_od} - {$x->uto_prestavka1_do}</td>
+			<td>Prestavka2: {$x->uto_prestavka2_od} - {$x->uto_prestavka2_do}</td>
+		    </tr>
+		    <tr><th>Středa</th>
+			<td>{$x->str_od} - {$x->str_do}</td>
+			<td>Prestavka1: {$x->str_prestavka1_od} - {$x->str_prestavka1_do}</td>
+			<td>Prestavka2: {$x->str_prestavka2_od} - {$x->str_prestavka2_do}</td>
+		    </tr>
+		    <tr><th>Čtvrtek</th>
+			<td>{$x->stv_od} - {$x->stv_do}</td>
+			<td>Prestavka1: {$x->stv_prestavka1_od} - {$x->stv_prestavka1_do}</td>
+			<td>Prestavka2: {$x->stv_prestavka2_od} - {$x->stv_prestavka2_do}</td>
+		    </tr>
+		    <tr>
+			<th>Pátek</th>
+			<td>{$x->pia_od} - {$x->pia_do}</td>
+			<td>Prestavka1: {$x->pia_prestavka1_od} - {$x->pia_prestavka1_do}</td>
+			<td>Prestavka2: {$x->pia_prestavka2_od} - {$x->pia_prestavka2_do}</td>
+		    </tr>
+		    <tr>
+			<th>Sobota</th>
+			<td>{$x->sob_od} - {$x->sob_do}</td>
+			<td>Prestavka1: {$x->sob_prestavka1_od} - {$x->sob_prestavka1_do}</td>
+			<td>Prestavka2: {$x->sob_prestavka2_od} - {$x->sob_prestavka2_do}</td>
+		    </tr>
+		    <tr><th>Neděle</th>
+			<td>{$x->ned_od} - {$x->ned_do}</td>
+			<td>Prestavka1: {$x->ned_prestavka1_od} - {$x->ned_prestavka1_do}</td>
+			<td>Prestavka2: {$x->ned_prestavka2_od} - {$x->ned_prestavka2_do}</td>
+		    </tr>
+		</table>
+            {/capture}
+
+	    <tr>
+		<td>{$x->nazov}</td>
+		<td><img src="{$img}/ico_7.png" alt="Provozni doba " class="anyTitle" popis="{$prov}" /></td>
+		<td class="anyTitle" popis="{$prov}">{$x->ulica} {$x->cislo}</td>
+		<td>{$x->psc}</td>
+		<td>{$x->dodaj_do} kg</td>
+		<td valign="bottom" align="right"><a n:href="select, $x->id" class="ajax btn btn-primary btn-sm">Zvolit</a></td>
+        </tr>
+	{/foreach}  
+    </table>
+
+</div>
+{/snippet}
+ 

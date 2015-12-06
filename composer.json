@@ -1,7 +1,7 @@
 {
     "name": "Unio/Posta",
     "type": "library",
-    "description": "Výběr pobočky české pošty k doručení balíku",
+    "description": "Výběr pobočky České nebo Slovenské pošty k doručení balíku",
     "keywords": ["pošta","nette"],
     "homepage": "https://github.com/Ivorius/Posta.git",
     "authors": [
@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "nette/nette": "2.*",
+        "nette/nette": "~2.1",
         "php": ">=5.3.0"
     },
     "autoload": {

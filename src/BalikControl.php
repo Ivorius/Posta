@@ -1,114 +1,141 @@
 <?php
 
 /**
- * Balík na poštu - ČP
+ * Balík na poštu - Česká a Slovenská pošta
  *
- * @author Ivo
+ * @author Ivo Toman
+ * @version 0.2
  */
 
 namespace Unio\Posta;
 
 use Nette\Application\UI;
+use Nette\Localization\ITranslator;
 
-class BalikControl extends UI\Control {
+class BalikControl extends UI\Control
+{
 
-    /**
-     * @var IPostManager
-     */
-    private $postManager;
-    
-    /** 
-     * limit pro dobírku (některé pošty naumožňují ukládat s vyšší částkou)     *
-     * @var numeric
-     */
-    private $limit = 50000;
-    
-    /**
-     * hodnota dobírky / košíku
-     * @var numerice
-     */
-    private $value;
-    
-    
-    private $posts = array();
-    
-     /** 
-      * @var callable[]  
-      * function ($posta); Occurs when the post is selected 
-      */
-    public $onSelect = array();
+	/**
+	 * @var IPostManager
+	 */
+	private $postManager;
 
-    public function __construct(IPostManager $postManager ){
-	$this->postManager = $postManager;
-	$this->template->css = "/assets/www/posta/css";
-	$this->template->js = "/assets/www/posta/js";
-	$this->template->img = "/assets/www/posta/images";
-	$this->template->limit = $this->limit;	
-	$this->template->posts = $this->posts;
-    }
+	/**
+	 * @var ITranslator
+	 */
+	private $translator;
 
-    public function render() {
-	$this->template->setFile(__DIR__ . "/BalikControl.latte");
+	/**
+	 * limit pro dobírku (některé pošty naumožňují ukládat s vyšší částkou)     *
+	 * @var numeric
+	 */
+	private $limit = 50000;
 
-	$this->template->value = $this->value;
-	$this->template->render();
-    }
-    
-     public function renderHead() {
-	$this->template->setFile(__DIR__ . "/BalikControlHead.latte");
-	$this->template->render();
-    }
+	/**
+	 * hodnota dobírky / košíku
+	 * @var numerice
+	 */
+	private $value;
 
-    protected function createComponentForm() {
-	$form = new UI\Form;
-	$form->getElementPrototype()
-		->class("ajax");
-	$form->addText("town", "Město");
-	$form->addText("postcode", "PSČ")
-		->setAttribute('class', 'posta_psc');
-	$form->addSubmit("send", "Najít poštu");
-	$form->onSuccess[] = $this->processForm;
-	return $form;
-    }
+	/**
+	 * @var string
+	 */
+	private $latteFile = "BalikControl.latte";
 
-    public function processForm(UI\Form $form) {
-	$val = $form->getValues();
 
-	if ($val->postcode != '') {
-	    $psc = intval(str_replace(' ', '', $val->postcode));
-	    $posts = $this->postManager->findByPostCode($psc);
-	} elseif ($val->town != '') {
-	    $posts = $this->postManager->findByTown($val->town);
-	} 
-	
-	if(count($posts) == 0) {
-	    $this->flashMessage("Zadaným kritériím nevyhovuje žádná pošta, změňte prosím Vámi zadaná kritéria vyhledávání.", "error");
+	private $posts = array();
+
+	/**
+	 * @var callable[]
+	 * function ($posta); Occurs when the post is selected
+	 */
+	public $onSelect = array();
+
+	public function __construct(IPostManager $postManager, ITranslator $translator)
+	{
+		$this->postManager = $postManager;
+		$this->translator = $translator;
 	}
-	
-	$this->template->posts = $posts;
-	
-	if($this->presenter->isAjax) {
-	   $this->invalidateControl();
-	} else {
-	    $this->redirect("this");
+
+	public function render()
+	{
+		$this->template->setFile(__DIR__ . "/" . $this->latteFile);
+		$this->template->img = "/assets/components/posta/images";
+		$this->template->limit = $this->limit;
+		$this->template->posts = $this->posts;
+		$this->template->value = $this->value;
+		$this->template->render();
 	}
-    }
-    
-    /**
-     * Při výběru pošty
-     * 
-     * @param int $id pošty
-     * 
-     */
-    public function handleSelect($id) {	
-	$posta = $this->postManager->get($id);
-	$this->onSelect($posta);
-	$this->invalidateControl();
-    }
-    
-    
-    public function setValue($value) {
-	$this->value = $value;
-    }
+
+
+
+	public function renderHead()
+	{
+		$this->template->setFile(__DIR__ . "/BalikControlHead.latte");
+		$this->template->css = "/assets/components/posta/css";
+		$this->template->js = "/assets/components/posta/js";
+		$this->template->render();
+	}
+
+	protected function createComponentForm()
+	{
+		$form = new UI\Form;
+		$form->setTranslator($this->translator);
+		$form->getElementPrototype()
+			->class("ajax");
+		$form->addText("town", "Town");
+		$form->addText("postcode", "Postcode")
+			->setAttribute('class', 'posta_psc');
+		$form->addSubmit("send", "Search Post Office");
+		$form->onSuccess[] = $this->processForm;
+		return $form;
+	}
+
+	public function processForm(UI\Form $form)
+	{
+		$val = $form->getValues();
+
+		if ($val->postcode != '') {
+			$psc = intval(str_replace(' ', '', $val->postcode));
+			$posts = $this->postManager->findByPostCode($psc);
+		} elseif ($val->town != '') {
+			$posts = $this->postManager->findByTown($val->town);
+		}
+
+		if (count($posts) == 0) {
+			$this->flashMessage("Zadaným kritériím nevyhovuje žádná pošta, změňte prosím Vámi zadaná kritéria vyhledávání.", "error");
+		}
+
+		$this->posts = $posts;
+
+		if ($this->presenter->isAjax()) {
+			$this->redrawControl();
+		} else {
+			$this->redirect("this");
+		}
+	}
+
+	/**
+	 * Při výběru pošty
+	 *
+	 * @param int $id pošty
+	 *
+	 */
+	public function handleSelect($id)
+	{
+		$posta = $this->postManager->get($id);
+		$this->onSelect($posta);
+		$this->redrawControl();
+	}
+
+
+	public function setValue($value)
+	{
+		$this->value = $value;
+	}
+
+	public function setLatteFile($file) {
+		$this->latteFile = $file;
+	}
 
 }
