@@ -14,9 +14,9 @@
 	
 	{foreach $posts AS $x}
 
-	    {if  $x->V_PROVOZU == 0}
+	    {if  $x->v_provozu == 0}
 	    {capture $prov}
-		<p>Vaši zásilku lze vyzvednout v rámci otevírací doby pobočky, v avizovaném dni uložení však nejdříve po <b>{$x->VYDEJ_NP_OD} hodině</b>.</p>
+		<p>Vaši zásilku lze vyzvednout v rámci otevírací doby pobočky, v avizovaném dni uložení však nejdříve po <b>{$x->vydej_np_od} hodině</b>.</p>
 
 		<table>
 		    <tr><th>Pondělí</th>
@@ -60,19 +60,19 @@
             {/capture}
 
 	    <tr>
-		<td>{$x->NAZ_PROV}
-		{if $value > $limit && $x->UKL_NP_LIMIT == 0}
-		   neumožňuje zaslat balík s hodnotou vyšší než {$limit}, náhradní pošta je  {$x->NAZ_NP_NAHR}		 
+		<td>{$x->naz_prov}
+		{if $value > $limit && $x->ukl_np_limit == 0}
+		   neumožňuje zaslat balík s hodnotou vyšší než {$limit}, náhradní pošta je  {$x->naz_np_nahr}
 		{/if}
 		</td>
 		<td><img src="{$img}/ico_7.png" alt="Provozni doba " class="anyTitle" popis="{$prov}" /></td>
-		<td class="anyTitle" popis="{$prov}">{$x->ADRESA}</td>
-		<td>{$x->PSC}</td>
-		<td>{if ($x->BANKOMAT == 1)}<img src="{$img}/ico_1.png" alt="Bankomat na poště" class="anyTitle" popis="Bankomat na poště" />{/if}</td>
-		<td>{if $x->KOMPLET_SERVIS == 1}<img src="{$img}/ico_2.png" alt="Komplet servis" class="anyTitle" popis="Příjem balíkových a listovních zásilek a peněžních poukázek" />{/if}</td>
-		<td>{if $x->PARKOVISTE == 1}<img src="{$img}/ico_3.png" alt="Parkování"  class="anyTitle" popis="Parkoviště u provozovny" />{/if}</td>
-		<td>{if $x->PRODL_DOBA == 1}<img src="{$img}/ico_4.png" alt="Prodloužená doba"  class="anyTitle" popis="prodloužená otevírací doba provozovny – po 18.00" />{/if}</td>
-		<td valign="bottom" align="right">{if $value > $limit && $x->UKL_NP_LIMIT == 0}nelze zvolit{else}<a n:href="select, $x->ID" class="ajax">Zvolit</a>{/if}</td>
+		<td class="anyTitle" popis="{$prov}">{$x->adresa}</td>
+		<td>{$x->psc}</td>
+		<td>{if ($x->bankomat == 1)}<img src="{$img}/ico_1.png" alt="Bankomat na poště" class="anyTitle" popis="Bankomat na poště" />{/if}</td>
+		<td>{if $x->komplet_servis == 1}<img src="{$img}/ico_2.png" alt="Komplet servis" class="anyTitle" popis="Příjem balíkových a listovních zásilek a peněžních poukázek" />{/if}</td>
+		<td>{if $x->parkoviste == 1}<img src="{$img}/ico_3.png" alt="Parkování"  class="anyTitle" popis="Parkoviště u provozovny" />{/if}</td>
+		<td>{if $x->prodl_doba == 1}<img src="{$img}/ico_4.png" alt="Prodloužená doba"  class="anyTitle" popis="prodloužená otevírací doba provozovny – po 18.00" />{/if}</td>
+		<td valign="bottom" align="right">{if $value > $limit && $x->ukl_np_limit == 0}nelze zvolit{else}<a n:href="select, $x->id" class="ajax btn btn-primary btn-sm">Zvolit</a>{/if}</td>
             </tr>
 	    {/if}
 	{/foreach}  
