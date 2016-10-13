@@ -47,6 +47,7 @@ class SlovakPostManager extends Manager implements IPostManager
 		if ($xml != FALSE) {
 
 			$this->beginTransaction();
+			$this->rawQuery("SET foreign_key_checks = 0");
 			$this->createTable();
 
 			foreach ($xml->POSTA AS $posta) {
@@ -76,7 +77,7 @@ class SlovakPostManager extends Manager implements IPostManager
 				$num++;
 			}
 
-
+			$this->rawQuery("SET foreign_key_checks = 1");
 			$this->commit();
 			return $num;
 		} else {
@@ -88,8 +89,7 @@ class SlovakPostManager extends Manager implements IPostManager
 	/**
 	 * Vytvoří prázdnou tabulku a smaže tab. stejného názvu pokud existuje
 	 */
-	private
-	function createTable()
+	private	function createTable()
 	{
 		$this->rawQuery("DROP TABLE IF EXISTS `" . $this->tableName . "`");
 		$sql = "CREATE TABLE `" . $this->tableName . "` (

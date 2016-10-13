@@ -50,6 +50,7 @@ class PostManager extends Manager implements IPostManager
 		if ($xml != FALSE) {
 
 			$this->beginTransaction();
+			$this->rawQuery("SET foreign_key_checks = 0");
 			$this->createTable();
 			foreach ($xml->row AS $posta) {
 				$set = array();
@@ -78,7 +79,9 @@ class PostManager extends Manager implements IPostManager
 				$this->table()->insert($set);
 				$num++;
 			}
+			$this->rawQuery("SET foreign_key_checks = 1");
 			$this->commit();
+
 			return $num;
 		} else {
 			throw new \Exception("XML files is not been loaded");
@@ -124,50 +127,50 @@ class PostManager extends Manager implements IPostManager
                       `psc_np_nahr` varchar(100) COLLATE utf8_czech_ci NOT NULL,
                       `naz_np_nahr` varchar(100) COLLATE utf8_czech_ci NOT NULL,
                       `abc_box` tinyint(1) NOT NULL,
-                      `pondeli_od1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `pondeli_do1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `pondeli_od2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `pondeli_do2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `pondeli_od3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `pondeli_do3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `utery_od1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `utery_do1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `utery_od2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `utery_do2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `utery_od3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `utery_do3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `streda_od1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `streda_do1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `streda_od2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `streda_do2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `streda_od3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `streda_do3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `ctvrtek_od1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `ctvrtek_do1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `ctvrtek_od2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `ctvrtek_do2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `ctvrtek_od3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `ctvrtek_do3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `patek_od1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `patek_do1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `patek_od2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `patek_do2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `patek_od3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `patek_do3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `sobota_od1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `sobota_do1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `sobota_od2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `sobota_do2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `sobota_od3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `sobota_do3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `nedele_od1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `nedele_do1` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `nedele_od2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `nedele_do2` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `nedele_od3` varchar(40) COLLATE utf8_czech_ci NOT NULL,
-                      `nedele_do3` varchar(40) COLLATE utf8_czech_ci NOT NULL,                      
-                      PRIMARY KEY (`ID`),
-                      FULLTEXT KEY `NAZ_PROV` (`NAZ_PROV`)
+                      `pondeli_od1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `pondeli_do1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `pondeli_od2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `pondeli_do2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `pondeli_od3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `pondeli_do3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `utery_od1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `utery_do1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `utery_od2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `utery_do2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `utery_od3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `utery_do3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `streda_od1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `streda_do1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `streda_od2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `streda_do2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `streda_od3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `streda_do3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `ctvrtek_od1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `ctvrtek_do1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `ctvrtek_od2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `ctvrtek_do2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `ctvrtek_od3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `ctvrtek_do3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `patek_od1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `patek_do1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `patek_od2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `patek_do2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `patek_od3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `patek_do3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `sobota_od1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `sobota_do1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `sobota_od2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `sobota_do2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `sobota_od3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `sobota_do3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `nedele_od1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `nedele_do1` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `nedele_od2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `nedele_do2` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `nedele_od3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      `nedele_do3` varchar(40) COLLATE utf8_czech_ci NULL DEFAULT NULL,
+                      PRIMARY KEY (`id`),
+                      FULLTEXT KEY `naz_prov` (`naz_prov`)
                     ) ENGINE=innoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;";
 		$this->rawQuery($sql);
 	}
