@@ -87,7 +87,7 @@ class BalikControl extends UI\Control
 		$form->addText("postcode", "Postcode")
 			->setAttribute('class', 'posta_psc');
 		$form->addSubmit("send", "Search Post Office");
-		$form->onSuccess[] = $this->processForm;
+		$form->onSuccess[] = [$this, 'processForm'];
 		return $form;
 	}
 
