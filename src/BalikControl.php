@@ -102,11 +102,11 @@ class BalikControl extends UI\Control
 			$posts = $this->postManager->findByTown($val->town);
 		}
 
-		if (count($posts) == 0) {
+		if (!isset($posts) || count($posts) === 0) {
 			$this->flashMessage("Zadaným kritériím nevyhovuje žádná pošta, změňte prosím Vámi zadaná kritéria vyhledávání.", "error");
+		} else {
+			$this->posts = $posts;
 		}
-
-		$this->posts = $posts;
 
 		if ($this->presenter->isAjax()) {
 			$this->redrawControl();
