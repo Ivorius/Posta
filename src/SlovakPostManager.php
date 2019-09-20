@@ -16,7 +16,7 @@ class SlovakPostManager extends Manager implements IPostManager
 
 	/** @var string */
 	protected $tableName = "posta_sk";
-	private $xmlFile = "http://www.posta.sk/public/forms/zoznam_post.xml";
+	private $xmlFile = "https://www.posta.sk/public/forms/zoznam_post.xml";
 
 	public function findByPostCode($postcode)
 	{
