@@ -7,7 +7,7 @@
  * @version 0.2
  */
 
-namespace Unio\Posta;
+namespace Unio\Posta\BalikNaPostu;
 
 use Nette\Application\UI;
 use Nette\Localization\ITranslator;

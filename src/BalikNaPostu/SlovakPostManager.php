@@ -6,13 +6,14 @@
  * @author Ivo
  */
 
-namespace Unio\Posta;
+namespace Unio\Posta\BalikNaPostu;
 
 use Unio\Manager;
+use Unio\Posta\IPostManager;
 
 class SlovakPostManager extends Manager implements IPostManager
 {
-	const IDENTI = "SLOVENSKA_POSTA_NA_POSTU";
+	const IDENTITY = "SLOVENSKA_POSTA_NA_POSTU";
 
 	/** @var string */
 	protected $tableName = "posta_sk";

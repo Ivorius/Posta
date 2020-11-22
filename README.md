@@ -12,7 +12,7 @@ Např.
 
 ```php
 	protected function createComponentBalikNaPostu() {
-	    $control = new \Unio\Posta\BalikControl($this->postManager, $this->translator);
+	    $control = new \Unio\Posta\BalikNaPostu\BalikControl($this->postManager, $this->translator);
 	    $control->setValue($hodnota_dobirky);
 	    $control->onSelect[] = function($posta) use ($control) {
 			$control->flashMessage("Pošta ". $posta->naz_prov . " vybrána", "ok");
@@ -21,7 +21,7 @@ Např.
 	}
 
 	protected function createComponentBalikNaPostuSk() {
-		$control = new \Unio\Posta\BalikControl($this->slovakPostManager, $this->translator);
+		$control = new \Unio\Posta\BalikNaPostu\BalikControl($this->slovakPostManager, $this->translator);
 		$control->setLatteFile("BalikControlSlovak.latte");
 		$control->onSelect[] = function($posta) use ($control) {
 			$this->sesna->posta_sk = $posta->id;
