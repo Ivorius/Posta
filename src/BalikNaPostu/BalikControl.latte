@@ -1,4 +1,3 @@
-{block content}
 {snippet flashMessages}<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>{/snippet}
 
 {snippet posty}
@@ -11,71 +10,35 @@
 	    <th colspan="4">Informace</th>
 	    <th align="right">Zvolte poštu</th>
 	</tr>
-	
+
 	{foreach $posts AS $x}
-
-	    {if  $x->v_provozu == 0}
-	    {capture $prov}
-		<p>Vaši zásilku lze vyzvednout v rámci otevírací doby pobočky, v avizovaném dni uložení však nejdříve po <b>{$x->vydej_np_od} hodině</b>.</p>
-
-		<table>
-		    <tr><th>Pondělí</th>
-			<td>{$x->pondeli_od1} - {$x->pondeli_do1}</td>
-			<td>{$x->pondeli_od2} - {$x->pondeli_do2}</td>
-			<td>{$x->pondeli_od3} - {$x->pondeli_do3}</td>
-		    </tr>
-		    <tr><th>Úterý</th>
-			<td>{$x->utery_od1} - {$x->utery_do1}</td>
-			<td>{$x->utery_od2} - {$x->utery_do2}</td>
-			<td>{$x->utery_od3} - {$x->utery_do3}</td>
-		    </tr>
-		    <tr><th>Středa</th>
-			<td>{$x->streda_od1} - {$x->streda_do1}</td>
-			<td>{$x->streda_od2} - {$x->streda_do2}</td>
-			<td>{$x->streda_od3} - {$x->streda_do3}</td>
-		    </tr>
-		    <tr><th>Čtvrtek</th>
-			<td>{$x->ctvrtek_od1} - {$x->ctvrtek_do1}</td>
-			<td>{$x->ctvrtek_od2} - {$x->ctvrtek_do2}</td>
-			<td>{$x->ctvrtek_od3} - {$x->ctvrtek_do3}</td>
-		    </tr>
-		    <tr>
-			<th>Pátek</th>
-			<td>{$x->patek_od1} - {$x->patek_do1}</td>
-			<td>{$x->patek_od2} - {$x->patek_do2}</td>
-			<td>{$x->patek_od3} - {$x->patek_do3}</td>
-		    </tr>
-		    <tr>
-			<th>Sobota</th>
-			<td>{$x->sobota_od1} - {$x->sobota_do1}</td>
-			<td>{$x->sobota_od2} - {$x->sobota_do2}</td>
-			<td>{$x->sobota_od3} - {$x->sobota_do3}</td>
-		    </tr>
-		    <tr><th>Neděle</th>
-			<td>{$x->nedele_od1} - {$x->nedele_do1}</td>
-			<td>{$x->nedele_od2} - {$x->nedele_do2}</td>
-			<td>{$x->nedele_od3} - {$x->nedele_do3}</td>
-		    </tr>
-		</table>
-            {/capture}
+{*	    {if  $x->V_PROVOZU == 'N'}*}
+			{capture $prov}
+				<p>Vaši zásilku lze vyzvednout v rámci této otevírací doby:</p>
+				<table n:inner-foreach="$x->OTV_DOBA->children() AS $den">
+					<tr><th>{$den[name]}</th>
+						<td n:foreach="$den->od_do AS $od_do">{$od_do->od} - {$od_do->do}</td>
+					</tr>
+				</table>
+			{/capture}
 
 	    <tr>
-		<td>{$x->naz_prov}
-		{if $value > $limit && $x->ukl_np_limit == 0}
-		   neumožňuje zaslat balík s hodnotou vyšší než {$limit}, náhradní pošta je  {$x->naz_np_nahr}
+		<td>{$x->NAZ_PROV}
+		{if $value > $limit && $x->UKL_NP_LIMIT == 'N'}
+		   neumožňuje zaslat balík s hodnotou vyšší než {$limit}, náhradní pošta je  {$x->NAZ_NP_NAHR}
 		{/if}
 		</td>
 		<td><img src="{$img}/ico_7.png" alt="Provozni doba " class="anyTitle" popis="{$prov}" /></td>
-		<td class="anyTitle" popis="{$prov}">{$x->adresa}</td>
-		<td>{$x->psc}</td>
-		<td>{if ($x->bankomat == 1)}<img src="{$img}/ico_1.png" alt="Bankomat na poště" class="anyTitle" popis="Bankomat na poště" />{/if}</td>
-		<td>{if $x->komplet_servis == 1}<img src="{$img}/ico_2.png" alt="Komplet servis" class="anyTitle" popis="Příjem balíkových a listovních zásilek a peněžních poukázek" />{/if}</td>
-		<td>{if $x->parkoviste == 1}<img src="{$img}/ico_3.png" alt="Parkování"  class="anyTitle" popis="Parkoviště u provozovny" />{/if}</td>
-		<td>{if $x->prodl_doba == 1}<img src="{$img}/ico_4.png" alt="Prodloužená doba"  class="anyTitle" popis="prodloužená otevírací doba provozovny – po 18.00" />{/if}</td>
-		<td valign="bottom" align="right">{if $value > $limit && $x->ukl_np_limit == 0}nelze zvolit{else}<a n:href="select, $x->id" class="ajax btn btn-primary btn-sm">Zvolit</a>{/if}</td>
+		<td class="anyTitle" popis="{$prov}">{$x->ADRESA}</td>
+		<td>{$x->PSC}</td>
+		<td>{if ($x->BANKOMAT == 'A')}<img src="{$img}/ico_1.png" alt="Bankomat na poště" class="anyTitle" popis="Bankomat na poště" />{/if}</td>
+		<td>{if $x->KOPLET_SERVIS == 'A'}<img src="{$img}/ico_2.png" alt="Komplet servis" class="anyTitle" popis="Příjem balíkových a listovních zásilek a peněžních poukázek" />{/if}</td>
+		<td>{if $x->PARKOVISTE == 'A'}<img src="{$img}/ico_3.png" alt="Parkování"  class="anyTitle" popis="Parkoviště u provozovny" />{/if}</td>
+		<td>{if $x->PRODL_DOBA == 'A'}<img src="{$img}/ico_4.png" alt="Prodloužená doba"  class="anyTitle" popis="prodloužená otevírací doba provozovny – po 18.00" />{/if}</td>
+		<td valign="bottom" align="right">{if $value > $limit && $x->UKL_NP_LIMIT == 'N'}nelze zvolit{else}<a n:href="select, (string) $x->PSC" class="ajax btn btn-primary btn-sm">Zvolit</a>{/if}</td>
             </tr>
-	    {/if}
-	{/foreach}  
+{*	    {/if}*}
+	{/foreach}
     </table>
     <p class="help">
 	<b>Legenda</b><br/>
@@ -87,4 +50,3 @@
     </p>
 </div>
 {/snippet}
- 

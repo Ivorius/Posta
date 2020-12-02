@@ -1,0 +1,36 @@
+{block content}
+{snippet flashMessages}<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>{/snippet}
+
+{snippet posty}
+<div id="naPoste" n:if="$posts">
+    <table cellpadding="0" cellspacing="0">
+	<tr>
+	    <th colspan="2">Pošta</th>
+	    <th>Ulica</th>
+	    <th>PSČ</th>
+	    <th align="right">Zvolte poštu</th>
+	</tr>
+
+	{foreach $posts AS $x}
+		{capture $prov}
+			<p>Vaši zásilku lze vyzvednout v rámci této otevírací doby:</p>
+			<table n:inner-foreach="$x->HODINY_PRE_VEREJNOST->children() AS $den">
+				<tr><th>{$den->getName()}</th>
+					<td>{$den->OD}</td>
+					<td>{$den->DO}</td>
+				</tr>
+			</table>
+		{/capture}
+
+	    <tr>
+		<td><img src="{$img}/ico_7.png" alt="Provozni doba " class="anyTitle" popis="{$prov}" /></td>
+		<td>{$x->NAZOV}</td>
+		<td class="anyTitle" popis="{$prov}">{$x->ADRESA->ULICA} {$x->ADRESA->CISLO}</td>
+		<td>{$x->PSC}</td>
+		<td valign="bottom" align="right"><a n:href="select, (string) $x->ID" class="ajax btn btn-primary btn-sm">Zvolit</a></td>
+        </tr>
+	{/foreach}
+    </table>
+
+</div>
+{/snippet}

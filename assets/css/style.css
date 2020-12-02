@@ -22,7 +22,7 @@ body { margin: 0; padding: 0; text-align: center; font-family: Verdana; font-siz
 *html #naPoste hr {margin:0; }
 
 #naPoste table {width: 100%; font-size: 12px; color: black; empty-cells: show}
-#naPoste table td, #naPoste table th {border-bottom: 1px solid #e6e6e6; padding: 4px 0;}
+#naPoste table td, #naPoste table th {border-bottom: 1px solid #e6e6e6; padding: 4px;}
 #naPoste table th {text-align: left; color:#304385 }
 #naPoste table td form {height: 24px; padding: 0; margin: 0}
 

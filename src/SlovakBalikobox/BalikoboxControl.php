@@ -1,19 +1,12 @@
 <?php
 
-/**
- * Balík na poštu - Česká a Slovenská pošta
- *
- * @author Ivo Toman
- * @version 0.2
- */
-
-namespace Unio\Posta\BalikNaPostu;
+namespace Unio\Posta\SlovakBalikobox;
 
 use Nette\Application\UI;
 use Nette\Localization\ITranslator;
 use Unio\Posta\IRepository;
 
-class BalikControl extends UI\Control
+class BalikoboxControl extends UI\Control
 {
 
 	/**
@@ -27,24 +20,11 @@ class BalikControl extends UI\Control
 	private $translator;
 
 	/**
-	 * limit pro dobírku (některé pošty naumožňují ukládat s vyšší částkou)     *
-	 * @var numeric
-	 */
-	private $limit = 50000;
-
-	/**
-	 * hodnota dobírky / košíku
-	 * @var numerice
-	 */
-	private $value;
-
-	/**
 	 * @var string
 	 */
-	private $latteFile = "BalikControl.latte";
+	private $latteFile = "BalikoboxControl.latte";
 
-
-	private $posts = array();
+	private $posts = [];
 
 	/**
 	 * @var callable[]
@@ -52,7 +32,7 @@ class BalikControl extends UI\Control
 	 */
 	public $onSelect = array();
 
-	public function __construct(BalikRepository $repository, ITranslator $translator)
+	public function __construct(BalikoboxRepository $repository, ITranslator $translator)
 	{
 		$this->repository = $repository;
 		$this->translator = $translator;
@@ -61,10 +41,8 @@ class BalikControl extends UI\Control
 	public function render()
 	{
 		$this->template->setFile(__DIR__ . "/" . $this->latteFile);
-		$this->template->img = "/assets/components/posta/images";
-		$this->template->limit = $this->limit;
 		$this->template->posts = $this->posts;
-		$this->template->value = $this->value;
+		$this->template->img = "/assets/components/posta/images";
 		$this->template->render();
 	}
 
@@ -104,7 +82,7 @@ class BalikControl extends UI\Control
 			$this->posts = $entries;
 		}
 
-		if ($this->presenter->isAjax()) {
+		if ($this->getPresenter()->isAjax()) {
 			$this->redrawControl();
 		} else {
 			$this->redirect("this");
@@ -123,16 +101,6 @@ class BalikControl extends UI\Control
 		$this->flashMessage(sprintf("Pošta %s vybrána",$posta->getName()), "ok");
 		$this->onSelect($posta);
 		$this->redrawControl();
-	}
-
-
-	public function setValue($value)
-	{
-		$this->value = $value;
-	}
-
-	public function setLatteFile($file) {
-		$this->latteFile = $file;
 	}
 
 }

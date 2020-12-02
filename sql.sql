@@ -1,5 +1,0 @@
-ALTER TABLE `orders`
-ADD `posta` int(5) NULL,
-ADD `posta_sk` int(6) NULL AFTER `posta`,
-ADD FOREIGN KEY (`posta`) REFERENCES `posta` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-ADD FOREIGN KEY (`posta_sk`) REFERENCES `posta_sk` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
