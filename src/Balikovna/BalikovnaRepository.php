@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Unio\Posta\Balikovna;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Nette\Utils\Strings;
 use Unio\Posta\IRepository;
 use Unio\Shipping\IShipBox;
@@ -58,11 +60,11 @@ class BalikovnaRepository implements IRepository
 
 	public function import()
 	{
-		$external =  file_get_contents(self::balikovnaXmlExt);
-		if($external !== false) {
-			file_put_contents(self::$balikovnaXml, file_get_contents(self::balikovnaXmlExt), LOCK_EX);
-		} else {
-			throw new \Exception(self::balikovnaXmlExt . 'is missing. Balikovna can not be updated');
+		try {
+			$client = new Client();
+			$file = $client->request('GET', self::balikovnaXmlExt, ['sink' => self::$balikovnaXml]);
+		} catch (GuzzleException $e) {
+			throw new \Exception(self::balikovnaXmlExt . 'is missing. Balikovna can not be updated', $e);
 		}
 	}
 

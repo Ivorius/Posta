@@ -2,6 +2,7 @@
 
 namespace Unio\Posta\SlovakBalikobox;
 
+use GuzzleHttp\Client;
 use Nette\Utils\Strings;
 use Unio\Posta\IRepository;
 use Unio\Shipping\IShipBox;
@@ -49,11 +50,11 @@ class BalikoboxRepository implements IRepository
 
 	public function import()
 	{
-		$external = file_get_contents(self::naPostuXmlExt);
-		if ($external !== false) {
-			file_put_contents(self::$naPostuXml, file_get_contents(self::naPostuXmlExt), LOCK_EX);
-		} else {
-			throw new \Exception(self::naPostuXmlExt . 'is missing. Balikovna can not be updated');
+		try {
+			$client = new Client();
+			$file = $client->request('GET', self::naPostuXmlExt, ['sink' => self::$naPostuXml]);
+		} catch (GuzzleException $e) {
+			throw new \Exception(self::balikovnaXmlExt . 'is missing. Balikobox can not be updated', $e);
 		}
 	}
 
