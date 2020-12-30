@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=7.3.0",
-        "nette/nette": "~2.1",
+        "nette/nette": "^2.4|^3.0",
         "guzzlehttp/guzzle": "^6.2"
     },
     "autoload": {
