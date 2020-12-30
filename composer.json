@@ -1,5 +1,5 @@
 {
-    "name": "Unio/Posta",
+    "name": "unio/posta",
     "type": "library",
     "description": "Výběr pobočky České nebo Slovenské pošty k doručení balíku, popřípadě na balíkovnu",
     "keywords": ["pošta","nette"],
